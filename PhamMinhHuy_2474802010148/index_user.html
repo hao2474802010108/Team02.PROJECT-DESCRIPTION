@@ -50,10 +50,8 @@
         </div>
       </nav>
 
-      <div class="header-right">
-        <div class="auth-buttons">
-          <button class="auth-btn login-btn">Đăng nhập</button>
-          <button class="auth-btn register-btn">Đăng ký</button>
+<div class="header-right">
+        <div class="user-info" id="userInfo">
         </div>
         <div class="cart-icon">
           <i class="fas fa-shopping-cart"></i>
@@ -121,31 +119,45 @@
     </div>
   </footer>
 <script>
-// Xử lý nút đăng nhập/đăng ký
-document.querySelector('.login-btn').addEventListener('click', function() {
-    window.location.href = 'login.html';
-});
-
-document.querySelector('.register-btn').addEventListener('click', function() {
-    window.location.href = 'register.html';
-});
-
-// Kiểm tra trạng thái đăng nhập khi trang load
-document.addEventListener('DOMContentLoaded', function() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
-        // Ẩn nút đăng nhập/đăng ký, hiển thị tên user
-        document.querySelector('.auth-buttons').innerHTML = `
-            <span>Xin chào, ${currentUser.username}</span>
-            <button class="auth-btn logout-btn">Đăng xuất</button>
-        `;
+    // Xử lý hiển thị thông tin user khi trang load
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const userInfo = document.getElementById('userInfo');
         
-        document.querySelector('.logout-btn').addEventListener('click', function() {
-            localStorage.removeItem('currentUser');
-            window.location.reload();
-        });
-    }
-});
-</script>
+        if (currentUser) {
+            // Hiển thị thông tin user
+            userInfo.innerHTML = `
+                <div class="user-welcome">
+                    <span class="welcome-text">Xin chào,</span>
+                    <span class="username">${currentUser.username}</span>
+                </div>
+                <button class="logout-btn">Đăng xuất</button>
+            `;
+            
+            // Xử lý nút đăng xuất
+            document.querySelector('.logout-btn').addEventListener('click', function() {
+                localStorage.removeItem('currentUser');
+                window.location.reload();
+            });
+        } else {
+            // Hiển thị nút đăng nhập/đăng ký
+            userInfo.innerHTML = `
+                <div class="auth-buttons">
+                    <button class="auth-btn login-btn">Đăng nhập</button>
+                    <button class="auth-btn register-btn">Đăng ký</button>
+                </div>
+            `;
+            
+            // Xử lý nút đăng nhập/đăng ký
+            document.querySelector('.login-btn').addEventListener('click', function() {
+                window.location.href = 'login.html';
+            });
+            
+            document.querySelector('.register-btn').addEventListener('click', function() {
+                window.location.href = 'register.html';
+            });
+        }
+    });
+  </script>
 </body>
 </html>
