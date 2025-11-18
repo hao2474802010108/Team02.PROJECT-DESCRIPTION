@@ -208,3 +208,40 @@ button {
         justify-content: flex-end;
     }
 }
+.header-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.switch-user-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.switch-user-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+header {
+    position: relative;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .header-actions {
+        position: static;
+        text-align: center;
+        margin-top: 10px;
+    }
+}

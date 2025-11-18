@@ -549,3 +549,61 @@ footer {
     justify-content: center;
     font-weight: bold;
 }
+/* Thêm vào cuối file style_user.css */
+
+/* Cart icon as link */
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 18px;
+    color: #222;
+    padding: 6px;
+    transition: color 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon:hover {
+    color: #e60012;
+}
+
+.cart-count {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #e60012;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Buy button styles */
+.buy-btn {
+    background: #e60012;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.buy-btn:hover {
+    background: #cc0010;
+    transform: translateY(-2px);
+}
+
+.buy-btn:active {
+    transform: scale(0.95);
+}

@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="auth_check.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Quần Áo</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+// Kiểm tra đăng nhập khi trang load
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    // Nếu chưa đăng nhập, chuyển đến unlog.html
+    if (!currentUser) {
+        window.location.href = 'unlog.html';
+        return;
+    }
+    
+    // Nếu không phải admin, chuyển đến index_user.html
+    if (currentUser.role !== 'admin') {
+        window.location.href = 'index_user.html';
+        return;
+    }
+});
+</script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Quản Lý Tủ Quần Áo</h1>
             <p class="subtitle">Thêm, xem, sửa và xóa các món đồ trong tủ quần áo của bạn</p>
+            <!-- Thêm nút chuyển về trang user -->
+            <div class="header-actions">
+                <button id="switchToUserBtn" class="switch-user-btn">
+                    <i class="fas fa-user"></i> Chuyển về trang người dùng
+                </button>
+            </div>
         </header>
 
         <div class="main-content">
@@ -86,16 +111,136 @@
         </div>
     </div>
     <script src="script.js"></script>
-<script>
-// Kiểm tra quyền truy cập khi trang load
-document.addEventListener('DOMContentLoaded', function() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    
-    if (!currentUser || currentUser.role !== 'admin') {
-        // Nếu không phải admin, chuyển hướng về trang user
+    <!-- Thêm Font Awesome cho icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+    // Kiểm tra quyền truy cập khi trang load
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!currentUser || currentUser.role !== 'admin') {
+            // Nếu không phải admin, chuyển hướng về trang user
+            window.location.href = 'index_user.html';
+        }
+
+        // Thêm sự kiện cho nút chuyển về trang user
+        const switchToUserBtn = document.getElementById('switchToUserBtn');
+        if (switchToUserBtn) {
+            switchToUserBtn.addEventListener('click', function() {
+                switchToUserMode();
+            });
+        }
+    });
+
+    // Hàm chuyển về chế độ user
+    function switchToUserMode() {
+        // Tạo hoặc lấy tài khoản user mặc định
+        const defaultUser = {
+            username: 'user',
+            password: 'user123',
+            role: 'user'
+        };
+
+        // Lấy danh sách users từ localStorage
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Kiểm tra xem user đã tồn tại chưa
+        const userExists = users.some(user => user.username === defaultUser.username);
+        
+        if (!userExists) {
+            // Nếu chưa tồn tại, thêm user vào danh sách
+            users.push(defaultUser);
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        // Đăng nhập tự động với tài khoản user
+        localStorage.setItem('currentUser', JSON.stringify({
+            username: defaultUser.username,
+            role: defaultUser.role
+        }));
+
+        // Chuyển hướng về trang user
         window.location.href = 'index_user.html';
     }
-});
-</script>
+
+    // Thêm tùy chọn: Tạo user ngẫu nhiên mỗi lần click
+    function switchToUserModeWithRandomUser() {
+        const randomId = Math.floor(Math.random() * 1000);
+        const randomUser = {
+            username: `user${randomId}`,
+            password: 'user123',
+            role: 'user'
+        };
+
+        // Lấy danh sách users từ localStorage
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Thêm user mới vào danh sách
+        users.push(randomUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // Đăng nhập tự động với tài khoản user ngẫu nhiên
+        localStorage.setItem('currentUser', JSON.stringify({
+            username: randomUser.username,
+            role: randomUser.role
+        }));
+
+        // Chuyển hướng về trang user
+        window.location.href = 'index_user.html';
+    }
+    </script>
+
+    <style>
+    /* CSS cho nút chuyển đổi */
+    .header-actions {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .switch-user-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .switch-user-btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .switch-user-btn i {
+        font-size: 16px;
+    }
+
+    /* Đảm bảo header có position relative */
+    header {
+        position: relative;
+        padding: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header-actions {
+            position: static;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .switch-user-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    </style>
 </body>
 </html>
