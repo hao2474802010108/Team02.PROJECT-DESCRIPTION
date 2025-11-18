@@ -173,3 +173,21 @@ input:focus {
         opacity: 1;
     }
 }
+/* Modal lỗi đăng nhập */
+#loginErrorModal .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+}
+
+#loginErrorModal .modal-icon {
+    color: #e60012;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
