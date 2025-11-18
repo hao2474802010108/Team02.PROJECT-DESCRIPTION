@@ -1,170 +1,94 @@
+<?php
+include("db_config.php");
+include(__DIR__ . "/db_config.php");
+?>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Quần Áo</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        ul.menu {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        li.menu {
-            display: inline;
-            font-size: 20px;
-        }
-
-        a.menu {
-            color: blue;
-            margin-right: 5px;
-            padding: 5px;
-            text-decoration: none;
-            border-style: solid;
-            border-width: 1px;
-            border-radius: 10px;
-        }
-
-        a.menu:hover {
-            background-color: blue;
-            color: white;
-        }
-
-        a.active {
-            background-color: red;
-            color: yellow;
-        }
-
-        #content {
-            margin-top: 20px;
-        }
-        #action {
-            margin-top: 20px;
-        }
-        
-        .message {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-    </style>
 </head>
 <body>
-    <?php
-    // Xử lý thông báo
-    $message = '';
-    $messageType = '';
-    if(isset($_GET['message'])) {
-        $message = $_GET['message'];
-        $messageType = isset($_GET['type']) ? $_GET['type'] : 'success';
-    }
+    <div class="container">
+        <header>
+            <h1>Quản Lý Tủ Quần Áo</h1>
+            <p class="subtitle">Thêm, xem, sửa và xóa các món đồ trong tủ quần áo của bạn</p>
+        </header>
 
-    // Lấy danh mục
-    $id = null;
-    if(isset($_GET["id"])){
-        $id = $_GET["id"];
-    }
-    
-    include_once("db_config.php");
+        <div class="main-content">
+            <section class="form-section">
+                <h2>Thông Tin Quần Áo</h2>
+                <form id="clothing-form">
+                    <input type="hidden" id="item-id">
+                    <div class="form-group">
+                        <label for="name">Tên sản phẩm:</label>
+                        <input type="text" id="name" placeholder="Ví dụ: Áo thun trắng" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Loại:</label>
+                        <select id="type" required>
+                            <option value="">Chọn loại</option>
+                            <option value="Áo">Áo</option>
+                            <option value="Quần">Quần</option>
+                            <option value="Váy">Váy</option>
+                            <option value="Áo khoác">Áo khoác</option>
+                            <option value="Phụ kiện">Phụ kiện</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Màu sắc:</label>
+                        <input type="text" id="color" placeholder="Ví dụ: Đen, Trắng, Xanh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="size">Kích cỡ:</label>
+                        <select id="size" required>
+                            <option value="">Chọn kích cỡ</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Thương hiệu:</label>
+                        <input type="text" id="brand" placeholder="Ví dụ: Nike, Zara">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Giá (VNĐ):</label>
+                        <input type="number" id="price" min="0" placeholder="Ví dụ: 250000">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Số lượng:</label>
+                        <input type="number" id="quantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Tình trạng:</label>
+                        <select id="status" required>
+                            <option value="">Chọn tình trạng</option>
+                            <option value="Mới">Mới</option>
+                            <option value="Đã sử dụng">Đã sử dụng</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Ghi chú:</label>
+                        <textarea id="notes" rows="3" placeholder="Ghi chú thêm về sản phẩm..."></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" id="save-btn">Thêm Mới</button>
+                        <button type="button" id="cancel-btn" class="cancel">Hủy</button>
+                    </div>
+                </form>
+            </section>
 
-    $cn = new mysqli($servername, $username, $password, $dbname);
-    if($cn->connect_error){
-        die("Lỗi kết nối: ". $cn->connect_error);
-    }
-
-    // Lấy danh sách danh mục
-    $sql = "SELECT MaDM, TenDM FROM danhmuc WHERE TrangThai = 1 ORDER BY MaDM";
-    $result = $cn->query($sql);
-
-    echo "<ul class='menu'>";
-    echo "<a class='menu " . ($id == null ? "active" : "") . "' href='?'><li class='menu'>Tất Cả</li></a>";
-    
-    while($row = $result->fetch_assoc()){
-        $active = "";
-        if($row["MaDM"] == $id){
-            $active = "active";
-        }
-        echo "<a class='menu {$active}' href='?id={$row['MaDM']}'><li class='menu'>{$row['TenDM']}</li></a>";
-    }
-    echo "</ul>";
-
-    // Hiển thị thông báo
-    if($message != '') {
-        echo "<div class='message {$messageType}'>{$message}</div>";
-    }
-
-    // Hiển thị sản phẩm
-    echo "<div id='content'>";
-    
-    if($id != null){
-        // Hiển thị sản phẩm theo danh mục
-        $sql = "SELECT sp.*, th.TenTH FROM sanpham sp 
-                JOIN thuonghieu th ON sp.MaTH = th.MaTH 
-                WHERE sp.MaDM = '{$id}' AND sp.TrangThai = 'con_hang' 
-                ORDER BY sp.NgayTao DESC";
-    } else {
-        // Hiển thị tất cả sản phẩm
-        $sql = "SELECT sp.*, th.TenTH FROM sanpham sp 
-                JOIN thuonghieu th ON sp.MaTH = th.MaTH 
-                WHERE sp.TrangThai = 'con_hang' 
-                ORDER BY sp.NgayTao DESC";
-    }
-    
-    $result = $cn->query($sql);
-    
-    if($result->num_rows > 0){
-        echo "<h2>Danh Sách Sản Phẩm</h2>";
-        echo "<div class='product-list'>";
-        
-        while($row = $result->fetch_assoc()){
-            $formattedPrice = number_format($row['GiaBan'], 0, ',', '.');
-            
-            echo "<div class='product-item'>";
-            echo "<h3>{$row['TenSP']}</h3>";
-            echo "<p><strong>Thương hiệu:</strong> {$row['TenTH']}</p>";
-            echo "<p><strong>Giá:</strong> {$formattedPrice} VNĐ</p>";
-            echo "<p><strong>Màu sắc:</strong> {$row['MauSac']}</p>";
-            echo "<p><strong>Kích thước:</strong> {$row['KichThuoc']}</p>";
-            echo "<p><strong>Tình trạng:</strong> " . ($row['TrangThai'] == 'con_hang' ? 'Còn hàng' : 'Hết hàng') . "</p>";
-            
-            if(!empty($row['MoTa'])){
-                echo "<p><strong>Mô tả:</strong> {$row['MoTa']}</p>";
-            }
-            
-            echo "<div class='product-actions'>";
-            echo "<a href='edit.php?id={$row['MaSP']}'><button>Sửa</button></a>";
-            echo "<a href='delete.php?id={$row['MaSP']}' onclick=\"return confirm('Có chắc xóa sản phẩm này?');\"><button>Xóa</button></a>";
-            echo "</div>";
-            echo "</div>";
-        }
-        
-        echo "</div>";
-    } else {
-        echo "<p>Không có sản phẩm nào.</p>";
-    }
-    
-    echo "</div>";
-
-    $cn->close();
-    ?>
-
-    <div id="action">
-        <a href="addnew.php"><button>Thêm Sản Phẩm Mới</button></a>
+            <section class="list-section">
+                <h2>Danh Sách Quần Áo</h2>
+                <div class="clothing-list" id="clothing-list">
+                </div>
+            </section>
+        </div>
     </div>
-
+    <script src="script.js"></script>
 </body>
 </html>

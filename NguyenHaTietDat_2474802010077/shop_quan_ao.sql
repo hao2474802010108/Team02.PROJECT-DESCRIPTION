@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 13, 2025 at 06:00 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th10 18, 2025 lúc 11:09 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,57 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `shop_quan_ao`
+-- Cơ sở dữ liệu: `shop_quan_ao`
 --
+
+DELIMITER $$
+--
+-- Thủ tục
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CapNhatSoLuongTon` (IN `ma_san_pham` CHAR(5), IN `so_luong_mua` INT)   BEGIN
+    UPDATE SANPHAM 
+    SET SoLuongTon = SoLuongTon - so_luong_mua
+    WHERE MaSP = ma_san_pham AND SoLuongTon >= so_luong_mua;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `KiemTraSoLuongTon` (IN `ma_san_pham` CHAR(5), IN `so_luong_mua` INT, OUT `kha_dung` BOOLEAN)   BEGIN
+    DECLARE ton_kho INT;
+    SELECT SoLuongTon INTO ton_kho FROM SANPHAM WHERE MaSP = ma_san_pham;
+    
+    IF ton_kho >= so_luong_mua THEN
+        SET kha_dung = TRUE;
+    ELSE
+        SET kha_dung = FALSE;
+    END IF;
+END$$
+
+--
+-- Các hàm
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `CapNhatTrangThaiSanPham` (`ma_san_pham` CHAR(5)) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci DETERMINISTIC READS SQL DATA BEGIN
+    DECLARE so_luong INT;
+    DECLARE trang_thai_moi VARCHAR(20);
+    
+    SELECT SoLuongTon INTO so_luong FROM SANPHAM WHERE MaSP = ma_san_pham;
+    
+    IF so_luong > 5 THEN
+        SET trang_thai_moi = 'con_hang';
+    ELSEIF so_luong > 0 THEN
+        SET trang_thai_moi = 'con_hang';
+    ELSE
+        SET trang_thai_moi = 'het_hang';
+    END IF;
+    
+    UPDATE SANPHAM SET TrangThai = trang_thai_moi WHERE MaSP = ma_san_pham;
+    RETURN trang_thai_moi;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Cấu trúc bảng cho bảng `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,7 +79,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `admin`
+-- Đang đổ dữ liệu cho bảng `admin`
 --
 
 INSERT INTO `admin` (`MaAdmin`, `TenAdmin`, `Email`, `TenDN`) VALUES
@@ -44,7 +88,7 @@ INSERT INTO `admin` (`MaAdmin`, `TenAdmin`, `Email`, `TenDN`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chitietdh`
+-- Cấu trúc bảng cho bảng `chitietdh`
 --
 
 CREATE TABLE `chitietdh` (
@@ -58,7 +102,7 @@ CREATE TABLE `chitietdh` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `chitietdh`
+-- Đang đổ dữ liệu cho bảng `chitietdh`
 --
 
 INSERT INTO `chitietdh` (`MaDH`, `MaSP`, `SoLuong`, `DonGia`, `ThanhTien`, `KichThuoc`, `MauSac`) VALUES
@@ -67,10 +111,22 @@ INSERT INTO `chitietdh` (`MaDH`, `MaSP`, `SoLuong`, `DonGia`, `ThanhTien`, `Kich
 ('DH002', 'SP009', 1, 680000.00, 680000.00, 'M', 'Đen'),
 ('DH002', 'SP010', 1, 620000.00, 620000.00, 'S', 'Hoa nhí');
 
+--
+-- Bẫy `chitietdh`
+--
+DELIMITER $$
+CREATE TRIGGER `TruSoLuongTon` AFTER INSERT ON `chitietdh` FOR EACH ROW BEGIN
+    UPDATE SANPHAM 
+    SET SoLuongTon = SoLuongTon - NEW.SoLuong
+    WHERE MaSP = NEW.MaSP;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `danhgia`
+-- Cấu trúc bảng cho bảng `danhgia`
 --
 
 CREATE TABLE `danhgia` (
@@ -83,17 +139,17 @@ CREATE TABLE `danhgia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `danhgia`
+-- Đang đổ dữ liệu cho bảng `danhgia`
 --
 
 INSERT INTO `danhgia` (`MaDG`, `MaKH`, `MaSP`, `Diem`, `NoiDung`, `NgayDG`) VALUES
-(1, 'KH001', 'SP001', 5, 'Áo đẹp, chất lượng tốt', '2025-11-13 04:51:50'),
-(2, 'KH002', 'SP009', 4, 'Đầm vừa người, chất vải mát', '2025-11-13 04:51:50');
+(1, 'KH001', 'SP001', 5, 'Áo đẹp, chất lượng tốt', '2025-11-18 08:12:12'),
+(2, 'KH002', 'SP007', 4, 'Quần short mặc rất thoải mái', '2025-11-18 08:12:12');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `danhmuc`
+-- Cấu trúc bảng cho bảng `danhmuc`
 --
 
 CREATE TABLE `danhmuc` (
@@ -104,7 +160,7 @@ CREATE TABLE `danhmuc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `danhmuc`
+-- Đang đổ dữ liệu cho bảng `danhmuc`
 --
 
 INSERT INTO `danhmuc` (`MaDM`, `TenDM`, `MoTa`, `TrangThai`) VALUES
@@ -118,7 +174,7 @@ INSERT INTO `danhmuc` (`MaDM`, `TenDM`, `MoTa`, `TrangThai`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `donhang`
+-- Cấu trúc bảng cho bảng `donhang`
 --
 
 CREATE TABLE `donhang` (
@@ -133,17 +189,32 @@ CREATE TABLE `donhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `donhang`
+-- Đang đổ dữ liệu cho bảng `donhang`
 --
 
 INSERT INTO `donhang` (`MaDH`, `MaKH`, `NgayLap`, `TongTien`, `DiaChiGiaoHang`, `SDTNhanHang`, `MaTT`, `GhiChu`) VALUES
-('DH001', 'KH001', '2025-11-13 04:51:50', 800000.00, '123 Nguyễn Trãi, Hà Nội', '0912345678', '004', NULL),
-('DH002', 'KH002', '2025-11-13 04:51:50', 1170000.00, '456 Lê Lợi, TP.HCM', '0923456789', '003', NULL);
+('DH001', 'KH001', '2025-11-18 08:12:12', 800000.00, '123 Nguyễn Trãi, Hà Nội', '0912345678', '004', NULL),
+('DH002', 'KH002', '2025-11-18 08:12:12', 1170000.00, '456 Lê Lợi, TP.HCM', '0923456789', '003', NULL);
+
+--
+-- Bẫy `donhang`
+--
+DELIMITER $$
+CREATE TRIGGER `CongLaiSoLuongTon` AFTER UPDATE ON `donhang` FOR EACH ROW BEGIN
+    IF NEW.MaTT = '005' AND OLD.MaTT != '005' THEN
+        UPDATE SANPHAM sp
+        JOIN CHITIETDH ct ON sp.MaSP = ct.MaSP
+        SET sp.SoLuongTon = sp.SoLuongTon + ct.SoLuong
+        WHERE ct.MaDH = NEW.MaDH;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `giohang`
+-- Cấu trúc bảng cho bảng `giohang`
 --
 
 CREATE TABLE `giohang` (
@@ -156,18 +227,18 @@ CREATE TABLE `giohang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `giohang`
+-- Đang đổ dữ liệu cho bảng `giohang`
 --
 
 INSERT INTO `giohang` (`MaKH`, `MaSP`, `SoLuong`, `KichThuoc`, `MauSac`, `NgayThem`) VALUES
-('KH001', 'SP005', 1, 'L', 'Đen', '2025-11-13 04:51:50'),
-('KH001', 'SP011', 1, 'L', 'Xanh đậm', '2025-11-13 04:51:50'),
-('KH002', 'SP004', 2, 'M', 'Xanh caro', '2025-11-13 04:51:50');
+('KH001', 'SP005', 1, 'L', 'Đen', '2025-11-18 08:12:12'),
+('KH001', 'SP011', 1, 'L', 'Xanh đậm', '2025-11-18 08:12:12'),
+('KH002', 'SP003', 2, 'M', 'Trắng', '2025-11-18 08:12:12');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `khachhang`
+-- Cấu trúc bảng cho bảng `khachhang`
 --
 
 CREATE TABLE `khachhang` (
@@ -181,17 +252,17 @@ CREATE TABLE `khachhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `khachhang`
+-- Đang đổ dữ liệu cho bảng `khachhang`
 --
 
 INSERT INTO `khachhang` (`MaKH`, `TenKH`, `SDT`, `Email`, `DiaChi`, `TenDN`, `NgayDangKy`) VALUES
-('KH001', 'Nguyễn Văn Nam', '0912345678', 'namnguyen@email.com', '123 Nguyễn Trãi, Hà Nội', 'khach01', '2025-11-13 04:51:50'),
-('KH002', 'Trần Thị Hoa', '0923456789', 'hoatran@email.com', '456 Lê Lợi, TP.HCM', 'khach02', '2025-11-13 04:51:50');
+('KH001', 'Nguyễn Văn Nam', '0912345678', 'namnguyen@email.com', '123 Nguyễn Trãi, Hà Nội', 'khach01', '2025-11-18 08:12:12'),
+('KH002', 'Trần Thị Hoa', '0923456789', 'hoatran@email.com', '456 Lê Lợi, TP.HCM', 'khach02', '2025-11-18 08:12:12');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sanpham`
+-- Cấu trúc bảng cho bảng `sanpham`
 --
 
 CREATE TABLE `sanpham` (
@@ -213,27 +284,53 @@ CREATE TABLE `sanpham` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `sanpham`
+-- Đang đổ dữ liệu cho bảng `sanpham`
 --
 
 INSERT INTO `sanpham` (`MaSP`, `TenSP`, `GiaBan`, `GiaGoc`, `MoTa`, `SoLuongTon`, `AnhSP`, `MaDM`, `MaTH`, `GioiTinh`, `ChatLieu`, `MauSac`, `KichThuoc`, `TrangThai`, `NgayTao`) VALUES
-('SP001', 'Áo thun Nike Sportswear', 350000.00, 299000.00, 'Áo thun thể thao Nike', 50, NULL, 'DM001', 'TH001', 'unisex', 'Cotton', 'Đen', 'M', 'con_hang', '2025-11-13 04:51:50'),
-('SP002', 'Áo thun Adidas Essentials', 320000.00, 279000.00, 'Áo thun basic Adidas', 40, NULL, 'DM001', 'TH002', 'unisex', 'Cotton', 'Trắng', 'L', 'con_hang', '2025-11-13 04:51:50'),
-('SP003', 'Áo sơ mi trắng công sở', 450000.00, 399000.00, 'Áo sơ mi trắng form regular', 30, NULL, 'DM002', 'TH006', 'nam', 'Cotton', 'Trắng', 'L', 'con_hang', '2025-11-13 04:51:50'),
-('SP004', 'Áo sơ mi nữ caro', 420000.00, 369000.00, 'Áo sơ mi nữ form rộng', 25, NULL, 'DM002', 'TH004', 'nu', 'Cotton', 'Xanh caro', 'M', 'con_hang', '2025-11-13 04:51:50'),
-('SP005', 'Quần jeans nam đen', 550000.00, 499000.00, 'Quần jeans nam slim fit', 35, NULL, 'DM003', 'TH005', 'nam', 'Denim', 'Đen', 'L', 'con_hang', '2025-11-13 04:51:50'),
-('SP006', 'Quần jeans nữ rách gối', 520000.00, 479000.00, 'Quần jeans nữ boyfriend', 28, NULL, 'DM003', 'TH004', 'nu', 'Denim', 'Xanh nhạt', 'M', 'con_hang', '2025-11-13 04:51:50'),
-('SP007', 'Quần short Nike Sport', 280000.00, 249000.00, 'Quần short thể thao', 45, NULL, 'DM004', 'TH001', 'nam', 'Polyester', 'Xám', 'L', 'con_hang', '2025-11-13 04:51:50'),
-('SP008', 'Quần short nữ kẻ caro', 250000.00, 219000.00, 'Quần short nữ mùa hè', 32, NULL, 'DM004', 'TH005', 'nu', 'Cotton', 'Đỏ caro', 'S', 'con_hang', '2025-11-13 04:51:50'),
-('SP009', 'Đầm body nữ đen', 680000.00, 599000.00, 'Đầm body dự tiệc', 20, NULL, 'DM005', 'TH004', 'nu', 'Viscose', 'Đen', 'M', 'con_hang', '2025-11-13 04:51:50'),
-('SP010', 'Váy liền nữ họa tiết', 620000.00, 549000.00, 'Váy liền mùa hè', 22, NULL, 'DM005', 'TH005', 'nu', 'Cotton', 'Hoa nhí', 'S', 'con_hang', '2025-11-13 04:51:50'),
-('SP011', 'Áo khoác jeans nam', 750000.00, 699000.00, 'Áo khoác jeans unisex', 18, NULL, 'DM006', 'TH003', 'unisex', 'Denim', 'Xanh đậm', 'L', 'con_hang', '2025-11-13 04:51:50'),
-('SP012', 'Áo khoác hoodie Adidas', 690000.00, 629000.00, 'Áo hoodie thể thao', 26, NULL, 'DM006', 'TH002', 'unisex', 'Nỉ', 'Xanh navy', 'M', 'con_hang', '2025-11-13 04:51:50');
+('SP001', 'Áo thun Nike Sportswear', 350000.00, 299000.00, 'Áo thun thể thao Nike', 5, NULL, 'DM001', 'TH001', 'unisex', 'Cotton', 'Đen', 'M', 'con_hang', '2025-11-18 08:11:57'),
+('SP002', 'Áo thun Adidas Essentials', 320000.00, 279000.00, 'Áo thun basic Adidas', 3, NULL, 'DM001', 'TH002', 'unisex', 'Cotton', 'Trắng', 'L', 'con_hang', '2025-11-18 08:11:57'),
+('SP003', 'Áo sơ mi trắng công sở', 450000.00, 399000.00, 'Áo sơ mi trắng form regular', 8, NULL, 'DM002', 'TH006', 'nam', 'Cotton', 'Trắng', 'L', 'con_hang', '2025-11-18 08:11:57'),
+('SP004', 'Áo sơ mi nữ caro', 420000.00, 369000.00, 'Áo sơ mi nữ form rộng', 0, NULL, 'DM002', 'TH004', 'nu', 'Cotton', 'Xanh caro', 'M', 'het_hang', '2025-11-18 08:11:57'),
+('SP005', 'Quần jeans nam đen', 550000.00, 499000.00, 'Quần jeans nam slim fit', 2, NULL, 'DM003', 'TH005', 'nam', 'Denim', 'Đen', 'L', 'con_hang', '2025-11-18 08:11:57'),
+('SP006', 'Quần jeans nữ rách gối', 520000.00, 479000.00, 'Quần jeans nữ boyfriend', 1, NULL, 'DM003', 'TH004', 'nu', 'Denim', 'Xanh nhạt', 'M', 'con_hang', '2025-11-18 08:11:57'),
+('SP007', 'Quần short Nike Sport', 280000.00, 249000.00, 'Quần short thể thao', 10, NULL, 'DM004', 'TH001', 'nam', 'Polyester', 'Xám', 'L', 'con_hang', '2025-11-18 08:11:57'),
+('SP008', 'Quần short nữ kẻ caro', 250000.00, 219000.00, 'Quần short nữ mùa hè', 15, NULL, 'DM004', 'TH005', 'nu', 'Cotton', 'Đỏ caro', 'S', 'con_hang', '2025-11-18 08:11:57'),
+('SP009', 'Đầm body nữ đen', 680000.00, 599000.00, 'Đầm body dự tiệc', 0, NULL, 'DM005', 'TH004', 'nu', 'Viscose', 'Đen', 'M', 'het_hang', '2025-11-18 08:11:57'),
+('SP010', 'Váy liền nữ họa tiết', 620000.00, 549000.00, 'Váy liền mùa hè', 4, NULL, 'DM005', 'TH005', 'nu', 'Cotton', 'Hoa nhí', 'S', 'con_hang', '2025-11-18 08:11:57'),
+('SP011', 'Áo khoác jeans nam', 750000.00, 699000.00, 'Áo khoác jeans unisex', 6, NULL, 'DM006', 'TH003', 'unisex', 'Denim', 'Xanh đậm', 'L', 'con_hang', '2025-11-18 08:11:57'),
+('SP012', 'Áo khoác hoodie Adidas', 690000.00, 629000.00, 'Áo hoodie thể thao', 0, NULL, 'DM006', 'TH002', 'unisex', 'Nỉ', 'Xanh navy', 'M', 'het_hang', '2025-11-18 08:11:57');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `taikhoan`
+-- Cấu trúc đóng vai cho view `sanphamhethang`
+-- (See below for the actual view)
+--
+CREATE TABLE `sanphamhethang` (
+`MaSP` char(5)
+,`TenSP` varchar(100)
+,`SoLuongTon` int(11)
+,`GiaBan` decimal(10,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc đóng vai cho view `sanphamsaphethang`
+-- (See below for the actual view)
+--
+CREATE TABLE `sanphamsaphethang` (
+`MaSP` char(5)
+,`TenSP` varchar(100)
+,`SoLuongTon` int(11)
+,`GiaBan` decimal(10,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `taikhoan`
 --
 
 CREATE TABLE `taikhoan` (
@@ -244,18 +341,31 @@ CREATE TABLE `taikhoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `taikhoan`
+-- Đang đổ dữ liệu cho bảng `taikhoan`
 --
 
 INSERT INTO `taikhoan` (`TenDN`, `MatKhau`, `VaiTro`, `NgayTao`) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', '2025-11-13 04:51:50'),
-('khach01', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', '2025-11-13 04:51:50'),
-('khach02', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', '2025-11-13 04:51:50');
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', '2025-11-18 08:11:40'),
+('khach01', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', '2025-11-18 08:11:40'),
+('khach02', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', '2025-11-18 08:11:40');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `thuonghieu`
+-- Cấu trúc đóng vai cho view `thongketonkho`
+-- (See below for the actual view)
+--
+CREATE TABLE `thongketonkho` (
+`DanhMuc` varchar(100)
+,`TongSoSP` bigint(21)
+,`TongTonKho` decimal(32,0)
+,`TongGiaTriTonKho` decimal(42,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `thuonghieu`
 --
 
 CREATE TABLE `thuonghieu` (
@@ -266,7 +376,7 @@ CREATE TABLE `thuonghieu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `thuonghieu`
+-- Đang đổ dữ liệu cho bảng `thuonghieu`
 --
 
 INSERT INTO `thuonghieu` (`MaTH`, `TenTH`, `MoTa`, `QuocGia`) VALUES
@@ -280,7 +390,7 @@ INSERT INTO `thuonghieu` (`MaTH`, `TenTH`, `MoTa`, `QuocGia`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `trangthaidon`
+-- Cấu trúc bảng cho bảng `trangthaidon`
 --
 
 CREATE TABLE `trangthaidon` (
@@ -289,7 +399,7 @@ CREATE TABLE `trangthaidon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `trangthaidon`
+-- Đang đổ dữ liệu cho bảng `trangthaidon`
 --
 
 INSERT INTO `trangthaidon` (`MaTT`, `TenTT`) VALUES
@@ -299,26 +409,53 @@ INSERT INTO `trangthaidon` (`MaTT`, `TenTT`) VALUES
 ('004', 'Giao thành công'),
 ('005', 'Đã hủy');
 
+-- --------------------------------------------------------
+
 --
--- Indexes for dumped tables
+-- Cấu trúc cho view `sanphamhethang`
+--
+DROP TABLE IF EXISTS `sanphamhethang`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sanphamhethang`  AS SELECT `sanpham`.`MaSP` AS `MaSP`, `sanpham`.`TenSP` AS `TenSP`, `sanpham`.`SoLuongTon` AS `SoLuongTon`, `sanpham`.`GiaBan` AS `GiaBan` FROM `sanpham` WHERE `sanpham`.`SoLuongTon` = 0 ORDER BY `sanpham`.`TenSP` ASC ;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc cho view `sanphamsaphethang`
+--
+DROP TABLE IF EXISTS `sanphamsaphethang`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sanphamsaphethang`  AS SELECT `sanpham`.`MaSP` AS `MaSP`, `sanpham`.`TenSP` AS `TenSP`, `sanpham`.`SoLuongTon` AS `SoLuongTon`, `sanpham`.`GiaBan` AS `GiaBan` FROM `sanpham` WHERE `sanpham`.`SoLuongTon` <= 3 AND `sanpham`.`SoLuongTon` > 0 ORDER BY `sanpham`.`SoLuongTon` ASC ;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc cho view `thongketonkho`
+--
+DROP TABLE IF EXISTS `thongketonkho`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `thongketonkho`  AS SELECT `dm`.`TenDM` AS `DanhMuc`, count(`sp`.`MaSP`) AS `TongSoSP`, sum(`sp`.`SoLuongTon`) AS `TongTonKho`, sum(`sp`.`SoLuongTon` * `sp`.`GiaBan`) AS `TongGiaTriTonKho` FROM (`danhmuc` `dm` left join `sanpham` `sp` on(`dm`.`MaDM` = `sp`.`MaDM`)) GROUP BY `dm`.`MaDM`, `dm`.`TenDM` ;
+
+--
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `admin`
+-- Chỉ mục cho bảng `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`MaAdmin`),
   ADD UNIQUE KEY `TenDN` (`TenDN`);
 
 --
--- Indexes for table `chitietdh`
+-- Chỉ mục cho bảng `chitietdh`
 --
 ALTER TABLE `chitietdh`
   ADD PRIMARY KEY (`MaDH`,`MaSP`),
   ADD KEY `MaSP` (`MaSP`);
 
 --
--- Indexes for table `danhgia`
+-- Chỉ mục cho bảng `danhgia`
 --
 ALTER TABLE `danhgia`
   ADD PRIMARY KEY (`MaDG`),
@@ -326,28 +463,29 @@ ALTER TABLE `danhgia`
   ADD KEY `MaSP` (`MaSP`);
 
 --
--- Indexes for table `danhmuc`
+-- Chỉ mục cho bảng `danhmuc`
 --
 ALTER TABLE `danhmuc`
   ADD PRIMARY KEY (`MaDM`);
 
 --
--- Indexes for table `donhang`
+-- Chỉ mục cho bảng `donhang`
 --
 ALTER TABLE `donhang`
   ADD PRIMARY KEY (`MaDH`),
   ADD KEY `MaKH` (`MaKH`),
-  ADD KEY `MaTT` (`MaTT`);
+  ADD KEY `idx_donhang_ngaylap` (`NgayLap`),
+  ADD KEY `idx_donhang_trangthai` (`MaTT`);
 
 --
--- Indexes for table `giohang`
+-- Chỉ mục cho bảng `giohang`
 --
 ALTER TABLE `giohang`
   ADD PRIMARY KEY (`MaKH`,`MaSP`,`KichThuoc`,`MauSac`),
   ADD KEY `MaSP` (`MaSP`);
 
 --
--- Indexes for table `khachhang`
+-- Chỉ mục cho bảng `khachhang`
 --
 ALTER TABLE `khachhang`
   ADD PRIMARY KEY (`MaKH`),
@@ -356,87 +494,90 @@ ALTER TABLE `khachhang`
   ADD UNIQUE KEY `TenDN` (`TenDN`);
 
 --
--- Indexes for table `sanpham`
+-- Chỉ mục cho bảng `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD PRIMARY KEY (`MaSP`),
   ADD KEY `MaDM` (`MaDM`),
-  ADD KEY `MaTH` (`MaTH`);
+  ADD KEY `MaTH` (`MaTH`),
+  ADD KEY `idx_sanpham_tensp` (`TenSP`),
+  ADD KEY `idx_sanpham_gia` (`GiaBan`),
+  ADD KEY `idx_sanpham_soluong` (`SoLuongTon`);
 
 --
--- Indexes for table `taikhoan`
+-- Chỉ mục cho bảng `taikhoan`
 --
 ALTER TABLE `taikhoan`
   ADD PRIMARY KEY (`TenDN`);
 
 --
--- Indexes for table `thuonghieu`
+-- Chỉ mục cho bảng `thuonghieu`
 --
 ALTER TABLE `thuonghieu`
   ADD PRIMARY KEY (`MaTH`);
 
 --
--- Indexes for table `trangthaidon`
+-- Chỉ mục cho bảng `trangthaidon`
 --
 ALTER TABLE `trangthaidon`
   ADD PRIMARY KEY (`MaTT`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `danhgia`
+-- AUTO_INCREMENT cho bảng `danhgia`
 --
 ALTER TABLE `danhgia`
   MODIFY `MaDG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `admin`
+-- Các ràng buộc cho bảng `admin`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`TenDN`) REFERENCES `taikhoan` (`TenDN`);
 
 --
--- Constraints for table `chitietdh`
+-- Các ràng buộc cho bảng `chitietdh`
 --
 ALTER TABLE `chitietdh`
   ADD CONSTRAINT `chitietdh_ibfk_1` FOREIGN KEY (`MaDH`) REFERENCES `donhang` (`MaDH`),
   ADD CONSTRAINT `chitietdh_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
 
 --
--- Constraints for table `danhgia`
+-- Các ràng buộc cho bảng `danhgia`
 --
 ALTER TABLE `danhgia`
   ADD CONSTRAINT `danhgia_ibfk_1` FOREIGN KEY (`MaKH`) REFERENCES `khachhang` (`MaKH`),
   ADD CONSTRAINT `danhgia_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
 
 --
--- Constraints for table `donhang`
+-- Các ràng buộc cho bảng `donhang`
 --
 ALTER TABLE `donhang`
   ADD CONSTRAINT `donhang_ibfk_1` FOREIGN KEY (`MaKH`) REFERENCES `khachhang` (`MaKH`),
   ADD CONSTRAINT `donhang_ibfk_2` FOREIGN KEY (`MaTT`) REFERENCES `trangthaidon` (`MaTT`);
 
 --
--- Constraints for table `giohang`
+-- Các ràng buộc cho bảng `giohang`
 --
 ALTER TABLE `giohang`
   ADD CONSTRAINT `giohang_ibfk_1` FOREIGN KEY (`MaKH`) REFERENCES `khachhang` (`MaKH`),
   ADD CONSTRAINT `giohang_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
 
 --
--- Constraints for table `khachhang`
+-- Các ràng buộc cho bảng `khachhang`
 --
 ALTER TABLE `khachhang`
   ADD CONSTRAINT `khachhang_ibfk_1` FOREIGN KEY (`TenDN`) REFERENCES `taikhoan` (`TenDN`);
 
 --
--- Constraints for table `sanpham`
+-- Các ràng buộc cho bảng `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD CONSTRAINT `sanpham_ibfk_1` FOREIGN KEY (`MaDM`) REFERENCES `danhmuc` (`MaDM`),
