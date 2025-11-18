@@ -231,11 +231,13 @@ header {
   border-radius: 8px;
   transition: all 0.3s;
   background: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,100);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 .item img {
@@ -250,13 +252,37 @@ header {
   margin: 10px 0;
   color: #333;
   font-size: 1.1rem;
+  flex-grow: 1;
 }
 
-.item p {
+.price {
   color: #e60012;
   font-weight: bold;
-  font-size: 1.1rem;
-  margin: 0;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.buy-btn {
+  background: #e60012;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.buy-btn:hover {
+  background: #cc0010;
+  transform: translateY(-2px);
+}
+
+.buy-btn:active {
+  transform: scale(0.95);
 }
 
 /* Footer */
