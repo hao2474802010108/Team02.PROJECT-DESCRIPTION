@@ -1,0 +1,267 @@
+/* ========= RESET CƠ BẢN ========= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+}
+
+/* ========= HEADER + NAV ========= */
+header {
+    background: #212529;
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+}
+
+.top-bar-right a {
+    color: #f8f9fa;
+    margin-left: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.top-bar-right a:hover {
+    background: #495057;
+    color: #fff;
+}
+
+.top-bar-right .btn {
+    margin-left: 8px;
+}
+
+/* ========= LAYOUT CHUNG ========= */
+.container {
+    max-width: 1200px;
+    margin: 24px auto;
+    background: #fff;
+    padding: 20px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+}
+
+/* ========= TIÊU ĐỀ ========= */
+h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    padding-left: 8px;
+}
+
+/* ========= LINK DANH MỤC TRANG CHỦ ========= */
+ul {
+    list-style: none;
+    margin: 8px 0 16px 0;
+    padding-left: 0;
+}
+
+ul li {
+    margin-bottom: 4px;
+}
+
+ul li a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
+/* ========= PRODUCT GRID ========= */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.product-card {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    width: calc(25% - 12px);
+    box-sizing: border-box;
+    border-radius: 6px;
+    background: #fff;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background: #f5f5f5;
+}
+
+.product-card h3 {
+    font-size: 16px;
+    margin: 5px 0;
+    min-height: 40px;
+}
+
+.product-card p {
+    margin: 5px 0;
+}
+
+/* ========= BUTTON ========= */
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #007bff;
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.btn-secondary {
+    background: #6c757d;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+
+.btn-danger {
+    background: #dc3545;
+}
+
+.btn-danger:hover {
+    background: #b52a37;
+}
+
+/* ========= TABLE ========= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ========= FORM ========= */
+form {
+    margin-top: 10px;
+}
+
+form label {
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 3px;
+    font-size: 14px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="number"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+/* ========= MESSAGE ========= */
+.error {
+    color: #dc3545;
+    margin: 6px 0;
+}
+
+.success {
+    color: #28a745;
+    margin: 6px 0;
+}
+
+/* ========= CLEARFIX ========= */
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* ========= RESPONSIVE ========= */
+@media (max-width: 992px) {
+    .product-card {
+        width: calc(33.333% - 12px);
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .top-bar-right {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .product-card {
+        width: calc(50% - 12px);
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%;
+    }
+}
