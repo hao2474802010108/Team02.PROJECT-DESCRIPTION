@@ -1,0 +1,311 @@
+/* add_product.css - CSS cho trang thêm sản phẩm với theme Uniqlo */
+
+/* Container chính */
+.product-form-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Tiêu đề trang */
+.page-title {
+    color: #E50010;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #e50010;
+    border-radius: 2px;
+}
+
+/* Form styling */
+.product-form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+/* Alert messages */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border-left: 4px solid;
+}
+
+.alert-danger {
+    background-color: #ffe6e6;
+    border-color: #e50010;
+    color: #c4000d;
+}
+
+.alert-success {
+    background-color: #e6ffe6;
+    border-color: #27ae60;
+    color: #219653;
+}
+
+.alert h4 {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.alert p {
+    margin: 5px 0;
+}
+
+/* Form layout */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="url"],
+.form textarea,
+.form select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #fafbfc;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+    outline: none;
+    border-color: #e50010;
+    background-color: white;
+}
+
+.form textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+/* Button styling */
+.btn {
+    background: #e50010;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #c4000d;
+    color: white;
+}
+
+/* Secondary button */
+.btn-secondary {
+    background: #6c757d;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+/* Select dropdown */
+.form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px;
+    padding-right: 40px;
+}
+
+/* Price fields layout */
+.price-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Field groups */
+.field-group {
+    margin-bottom: 20px;
+}
+
+.field-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.required::after {
+    content: ' *';
+    color: #e50010;
+    font-weight: bold;
+}
+
+/* Button group */
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+/* Form section headers */
+.form-section {
+    margin: 30px 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+    color: #E50010;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section i {
+    color: #e50010;
+}
+
+/* Image preview */
+.image-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 5px;
+    border: 2px dashed #e9ecef;
+    padding: 5px;
+    display: none;
+}
+
+.image-preview img.visible {
+    display: inline-block;
+}
+
+/* Loading state */
+.btn-loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Field error state */
+.field-error {
+    color: #e50010;
+    font-size: 12px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.field-error::before {
+    content: '⚠';
+    font-size: 14px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .product-form-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .product-form {
+        padding: 20px;
+    }
+    
+    .price-group {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-form {
+        padding: 15px;
+    }
+    
+    .form-section {
+        font-size: 1.1rem;
+    }
+    
+    .form input[type="text"],
+    .form input[type="number"],
+    .form input[type="url"],
+    .form textarea,
+    .form select {
+        padding: 10px 12px;
+    }
+}

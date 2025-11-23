@@ -1,0 +1,852 @@
+/* Product Detail Styles - UNIQLO Theme với font tròn và to hơn */
+.product-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #fff;
+}
+
+/* Breadcrumb */
+.product-detail-container .breadcrumb {
+    margin-bottom: 35px;
+    font-size: 15px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.product-detail-container .breadcrumb a {
+    color: #e50010;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.product-detail-container .breadcrumb a:hover {
+    color: #b3000c;
+}
+
+.product-detail-container .breadcrumb .separator {
+    margin: 0 12px;
+    color: #999;
+}
+
+.product-detail-container .breadcrumb .current {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Product Detail Layout */
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    margin-bottom: 70px;
+}
+
+/* Product Image Section */
+.product-image-section {
+    position: relative;
+}
+
+.main-image {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 650px;
+    position: relative;
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.main-image:hover img {
+    transform: scale(1.02);
+}
+
+.main-image.no-image {
+    flex-direction: column;
+    color: #999;
+    font-size: 16px;
+    background: #fafafa;
+}
+
+.main-image.no-image i {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+/* Product Info Section */
+.product-info-section {
+    padding: 15px 0;
+}
+
+.product-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+}
+
+/* Price Section */
+.product-price-section {
+    margin-bottom: 30px;
+    padding: 25px 0;
+    border-bottom: 2px solid #f0f0f0;
+    border-top: 2px solid #f0f0f0;
+}
+
+.current-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e50010;
+    margin-right: 20px;
+}
+
+.original-price {
+    font-size: 22px;
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 20px;
+}
+
+.discount-badge {
+    background: #e50010;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Product Meta */
+.product-meta {
+    margin-bottom: 35px;
+    padding: 0;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.meta-item:last-child {
+    border-bottom: none;
+}
+
+.meta-item i {
+    width: 20px;
+    margin-right: 15px;
+    color: #e50010;
+    font-size: 16px;
+}
+
+.meta-item strong {
+    margin-right: 12px;
+    color: #333;
+    font-weight: 600;
+    min-width: 100px;
+}
+
+.meta-item span {
+    color: #666;
+    font-weight: 500;
+}
+
+/* Product Description */
+.product-description {
+    margin-bottom: 35px;
+    padding: 0;
+}
+
+.product-description h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.product-description h3 i {
+    margin-right: 10px;
+    color: #e50010;
+    font-size: 16px;
+}
+
+.product-description p {
+    line-height: 1.7;
+    color: #666;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Form Styles */
+.add-to-cart-form {
+    margin-bottom: 30px;
+    padding: 0;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+}
+
+.form-group label i {
+    margin-right: 10px;
+    color: #e50010;
+    width: 16px;
+    font-size: 16px;
+}
+
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    background: #fff;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group select:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus {
+    outline: none;
+    border-color: #e50010;
+    box-shadow: 0 0 0 3px rgba(229, 0, 16, 0.1);
+}
+
+/* Quantity Selector */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    max-width: 150px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quantity-btn {
+    background: #f8f8f8;
+    color: #333;
+    border: none;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.quantity-btn:hover {
+    background: #e50010;
+    color: white;
+}
+
+.quantity-selector input {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-left: 2px solid #ddd;
+    border-right: 2px solid #ddd;
+    text-align: center;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    background: #fff;
+}
+
+/* BUTTONS - CHỈ ÁP DỤNG TRONG PRODUCT DETAIL */
+.product-detail-container .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.product-detail-container .btn-add-to-cart {
+    background: #e50010;
+    color: white;
+    border: 2px solid #e50010;
+    font-size: 17px;
+}
+
+.product-detail-container .btn-add-to-cart:hover {
+    background: #b3000c;
+    border-color: #b3000c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(229, 0, 16, 0.3);
+}
+
+/* Button Tiếp tục mua sắm - CHỈ trong product detail */
+.product-detail-container .btn-continue-shopping {
+    background: #e50010 !important;
+    color: white !important;
+    border: 2px solid #e50010 !important;
+    font-size: 15px;
+    text-decoration: none !important;
+}
+
+.product-detail-container .btn-continue-shopping:hover {
+    background: #b3000c !important;
+    color: white !important;
+    border-color: #b3000c !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(179, 0, 12, 0.3);
+}
+
+/* Đảm bảo chữ hiển thị trong button */
+.product-detail-container .btn span {
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+}
+
+/* Product Actions */
+.product-actions {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+/* Đảm bảo link trong product-actions hiển thị đúng */
+.product-actions .btn {
+    text-decoration: none;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-actions .btn span {
+    display: inline !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background: #e50010;
+    color: white;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out;
+    max-width: 350px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.notification.success {
+    background: #28a745;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .product-detail {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .product-title {
+        font-size: 24px;
+    }
+    
+    .current-price {
+        font-size: 24px;
+    }
+    
+    .product-detail-container {
+        padding: 20px;
+    }
+    
+    .main-image {
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-detail {
+        gap: 40px;
+    }
+    
+    .product-title {
+        font-size: 22px;
+    }
+    
+    .product-detail-container .breadcrumb {
+        font-size: 14px;
+    }
+    
+    .product-detail-container .btn {
+        padding: 16px 25px;
+        font-size: 15px;
+    }
+    
+    .form-group select,
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+    
+    .main-image {
+        min-height: 400px;
+    }
+    
+    .product-price-section {
+        padding: 20px 0;
+    }
+    
+    .current-price {
+        font-size: 24px;
+    }
+    
+    .original-price {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-detail-container {
+        padding: 15px;
+    }
+    
+    .product-detail {
+        gap: 30px;
+    }
+    
+    .product-title {
+        font-size: 20px;
+    }
+    
+    .product-detail-container .btn {
+        padding: 14px 20px;
+        font-size: 14px;
+    }
+    
+    .form-group select,
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+    
+    .quantity-selector {
+        max-width: 130px;
+    }
+    
+    .quantity-btn,
+    .quantity-selector input {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+}
+
+/* Font Import - Thêm font tròn và to hơn */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* Áp dụng font mới */
+.product-detail-container {
+    font-family: 'Plus Jakarta Sans', 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Loading State */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid transparent;
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Product Not Found */
+.product-not-found {
+    text-align: center;
+    padding: 100px 20px;
+    color: #666;
+}
+
+.product-not-found p {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* FIX THÊM: Đảm bảo button hiển thị đầy đủ */
+.product-actions a.btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.product-actions a.btn span {
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+}
+
+/* Error States */
+.form-group select.error,
+.form-group input[type="text"].error,
+.form-group input[type="number"].error {
+    border-color: #e50010;
+    background-color: #fff5f5;
+}
+
+.error-message {
+    color: #e50010;
+    font-size: 14px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.error-message i {
+    font-size: 12px;
+}
+
+/* Success States */
+.form-group select.success,
+.form-group input[type="text"].success,
+.form-group input[type="number"].success {
+    border-color: #28a745;
+    background-color: #f8fff9;
+}
+
+/* Focus States */
+.form-group select:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus {
+    outline: none;
+    border-color: #e50010;
+    box-shadow: 0 0 0 3px rgba(229, 0, 16, 0.1);
+}
+
+/* Disabled States */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn:disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Additional Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.text-red {
+    color: #e50010;
+}
+
+.text-bold {
+    font-weight: 700;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+/* Custom Scrollbar */
+.product-description::-webkit-scrollbar {
+    width: 6px;
+}
+
+.product-description::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.product-description::-webkit-scrollbar-thumb {
+    background: #e50010;
+    border-radius: 3px;
+}
+
+.product-description::-webkit-scrollbar-thumb:hover {
+    background: #b3000c;
+}
+
+/* Stock Status */
+.stock-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.stock-status.in-stock {
+    color: #28a745;
+}
+
+.stock-status.out-of-stock {
+    color: #e50010;
+}
+
+.stock-status i {
+    font-size: 12px;
+}
+
+/* Size Guide */
+.size-guide-link {
+    color: #e50010;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+.size-guide-link:hover {
+    text-decoration: underline;
+}
+
+/* Social Share */
+.social-share {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.social-share-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.social-share-btn:hover {
+    transform: translateY(-2px);
+}
+
+.social-share-facebook {
+    background: #3b5998;
+}
+
+.social-share-twitter {
+    background: #1da1f2;
+}
+
+.social-share-pinterest {
+    background: #bd081c;
+}
+
+.social-share-messenger {
+    background: #0084ff;
+}
+
+/* Related Products */
+.related-products {
+    margin-top: 60px;
+    border-top: 2px solid #f0f0f0;
+    padding-top: 40px;
+}
+
+.related-products h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Image Zoom Effect */
+.main-image {
+    cursor: zoom-in;
+}
+
+.main-image.zoomed {
+    cursor: zoom-out;
+}
+
+.main-image.zoomed img {
+    transform: scale(2);
+}
+
+/* Wishlist Button */
+.wishlist-btn {
+    background: transparent;
+    border: 2px solid #ddd;
+    color: #666;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.wishlist-btn:hover {
+    border-color: #e50010;
+    color: #e50010;
+}
+
+.wishlist-btn.active {
+    background: #e50010;
+    border-color: #e50010;
+    color: white;
+}
+
+/* Delivery Info */
+.delivery-info {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.delivery-info h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delivery-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.delivery-info li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.delivery-info li:last-child {
+    margin-bottom: 0;
+}
+
+.delivery-info li i {
+    color: #e50010;
+    font-size: 12px;
+}
