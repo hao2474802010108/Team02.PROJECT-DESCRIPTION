@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="login-card">
                 <div class="logo">
                     <i class="fas fa-tshirt"></i>
-                    1NT3Rnet
+                    InT3rNet
                 </div>
                 <div class="subtitle">
                     <i class="fas fa-sign-in-alt"></i>
@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="footer-content">
             <p>
                 <i class="fas fa-tshirt"></i>
-                2024 1NT3Rnet. Tất cả các quyền được bảo lưu.
+                &copy;2025 InT3rNet.
             </p>
             <div class="footer-links">
                 <a href="privacy.php">
