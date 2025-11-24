@@ -8,7 +8,7 @@ Giảng viên: Hà Đông Hưng (Lý thuyết)- Trần Công Thanh (Thực Hành
 I. THÔNG TIN THÀNH VIÊN
 ----------------------------------------------------------------------
 - 2474802010-77 – Nguyễn Hà Tiến Đạt – Database 
-- 2474802010108 – Nguyễn Hữu Hạo  – (Leader) - Report - Powerpoint - Video
+- 2474802010108 – Nguyễn Hữu Hạo  – (Leader) - Report
 - 2474802010148 – Phạm Minh Huy - Frontend
 - 2474802010209 - Nguyễn Bảo Lâm - Backend
 
@@ -18,7 +18,7 @@ II. MÔ TẢ ĐỀ TÀI
 Tên đề tài:Quản Lý Cửa Hàng Quần Áo
 
 Mô tả ngắn:
-Website mô phỏng hệ thống quản lý dữ liệu thực tế sử dụng  HTML5, CSS3, JavaScript, PHP và MySQL. Hỗ trợ chức năng đăng nhập, thêm/xóa/sửa/tìm kiếm dữ liệu 
+Website mô phỏng hệ thống quản lý dữ liệu thực tế sử dụng  HTML5, CSS3, JavaScript, PHP và MySQL. Hỗ trợ chức năng đăng nhập, thêm/xóa/sửa/tìm kiếm dữ liệu , dashboard
 ----------------------------------------------------------------------
 III. CÁCH CÀI ĐẶT & CHẠY DỰ ÁN (LOCALHOST - XAMPP)
 ----------------------------------------------------------------------
