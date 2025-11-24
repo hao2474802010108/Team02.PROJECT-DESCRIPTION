@@ -43,7 +43,7 @@ Ví dụ (cập nhật theo nhóm 2):
 ----------------------------------------------------------------------
 V. LINK TRIỂN KHAI ONLINE (FREE HOST)
 ----------------------------------------------------------------------
-URL:chaygiumdi.wuaze.com	
+URL:http://shop4tl.wuaze.com/add_product.php	
 
 ----------------------------------------------------------------------
 VI. LINK GITHUB (BẮT BUỘC)
